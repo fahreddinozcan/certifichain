@@ -51,3 +51,45 @@ func (k Keeper) GetAuthority() string {
 func (k Keeper) Logger() log.Logger {
 	return k.logger.With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
+
+func (k Keeper) IssueCertification(ctx sdk.Context, cert types.Certification) error {
+	kvStore := k.storeService.OpenKVStore(ctx)
+
+	key := []byte(cert.Id)
+	value := k.cdc.MustMarshal(&cert)
+
+	return kvStore.Set(key, value)
+}
+
+func (k Keeper) GetCertification(ctx sdk.Context, id string) (types.Certification, bool) {
+	kvStore := k.storeService.OpenKVStore(ctx)
+
+	key := []byte(id)
+	value, err := kvStore.Get(key)
+	if err != nil || value == nil {
+		return types.Certification{}, false
+	}
+
+	var cert types.Certification
+	k.cdc.MustUnmarshal(value, &cert)
+	return cert, true
+}
+
+func (k Keeper) ListCertifications(ctx sdk.Context) ([]types.Certification, error) {
+	kvStore := k.storeService.OpenKVStore(ctx)
+
+	iterator, err := kvStore.Iterator(nil, nil)
+	if err != nil {
+		return nil, err
+	}
+	defer iterator.Close()
+
+	var certifications []types.Certification
+	for ; iterator.Valid(); iterator.Next() {
+		var cert types.Certification
+		k.cdc.MustUnmarshal(iterator.Value(), &cert)
+		certifications = append(certifications, cert)
+	}
+
+	return certifications, nil
+}
