@@ -79,6 +79,8 @@ import (
 	certifichainmodulekeeper "certifichain/x/certifichain/keeper"
 
 	issuermodulekeeper "certifichain/x/issuer/keeper"
+	learnermodulekeeper "certifichain/x/learner/keeper"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"certifichain/docs"
@@ -146,6 +148,7 @@ type App struct {
 	CertifichainKeeper  certifichainmodulekeeper.Keeper
 	CertificationKeeper certificationmodulekeeper.Keeper
 	IssuerKeeper        issuermodulekeeper.Keeper
+	LearnerKeeper       learnermodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -287,6 +290,7 @@ func New(
 		&app.CertifichainKeeper,
 		&app.CertificationKeeper,
 		&app.IssuerKeeper,
+		&app.LearnerKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)

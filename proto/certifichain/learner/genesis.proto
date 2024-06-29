@@ -1,0 +1,17 @@
+syntax = "proto3";
+package certifichain.learner;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "certifichain/learner/params.proto";
+
+option go_package = "certifichain/x/learner/types";
+
+// GenesisState defines the learner module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}

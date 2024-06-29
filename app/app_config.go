@@ -56,12 +56,15 @@ import (
 	certificationmodulev1 "certifichain/api/certifichain/certification/module"
 	certifichainmodulev1 "certifichain/api/certifichain/certifichain/module"
 	issuermodulev1 "certifichain/api/certifichain/issuer/module"
+	learnermodulev1 "certifichain/api/certifichain/learner/module"
 	_ "certifichain/x/certification/module" // import for side-effects
 	certificationmoduletypes "certifichain/x/certification/types"
 	_ "certifichain/x/certifichain/module" // import for side-effects
 	certifichainmoduletypes "certifichain/x/certifichain/types"
 	_ "certifichain/x/issuer/module" // import for side-effects
 	issuermoduletypes "certifichain/x/issuer/types"
+	_ "certifichain/x/learner/module" // import for side-effects
+	learnermoduletypes "certifichain/x/learner/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -102,6 +105,7 @@ var (
 		certifichainmoduletypes.ModuleName,
 		certificationmoduletypes.ModuleName,
 		issuermoduletypes.ModuleName,
+		learnermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -129,6 +133,7 @@ var (
 		certifichainmoduletypes.ModuleName,
 		certificationmoduletypes.ModuleName,
 		issuermoduletypes.ModuleName,
+		learnermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -150,6 +155,7 @@ var (
 		certifichainmoduletypes.ModuleName,
 		certificationmoduletypes.ModuleName,
 		issuermoduletypes.ModuleName,
+		learnermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -316,6 +322,10 @@ var (
 			{
 				Name:   issuermoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&issuermodulev1.Module{}),
+			},
+			{
+				Name:   learnermoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&learnermodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
