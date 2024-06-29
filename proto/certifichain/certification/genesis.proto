@@ -1,0 +1,17 @@
+syntax = "proto3";
+package certifichain.certification;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "certifichain/certification/params.proto";
+
+option go_package = "certifichain/x/certification/types";
+
+// GenesisState defines the certification module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}

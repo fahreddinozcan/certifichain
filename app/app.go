@@ -75,7 +75,10 @@ import (
 	ibctransferkeeper "github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
 
+	certificationmodulekeeper "certifichain/x/certification/keeper"
 	certifichainmodulekeeper "certifichain/x/certifichain/keeper"
+
+	issuermodulekeeper "certifichain/x/issuer/keeper"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"certifichain/docs"
@@ -140,7 +143,9 @@ type App struct {
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
 
-	CertifichainKeeper certifichainmodulekeeper.Keeper
+	CertifichainKeeper  certifichainmodulekeeper.Keeper
+	CertificationKeeper certificationmodulekeeper.Keeper
+	IssuerKeeper        issuermodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -280,6 +285,8 @@ func New(
 		&app.GroupKeeper,
 		&app.CircuitBreakerKeeper,
 		&app.CertifichainKeeper,
+		&app.CertificationKeeper,
+		&app.IssuerKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)

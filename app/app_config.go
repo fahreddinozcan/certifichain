@@ -53,9 +53,15 @@ import (
 	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 	"google.golang.org/protobuf/types/known/durationpb"
 
+	certificationmodulev1 "certifichain/api/certifichain/certification/module"
 	certifichainmodulev1 "certifichain/api/certifichain/certifichain/module"
+	issuermodulev1 "certifichain/api/certifichain/issuer/module"
+	_ "certifichain/x/certification/module" // import for side-effects
+	certificationmoduletypes "certifichain/x/certification/types"
 	_ "certifichain/x/certifichain/module" // import for side-effects
 	certifichainmoduletypes "certifichain/x/certifichain/types"
+	_ "certifichain/x/issuer/module" // import for side-effects
+	issuermoduletypes "certifichain/x/issuer/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -94,6 +100,8 @@ var (
 		circuittypes.ModuleName,
 		// chain modules
 		certifichainmoduletypes.ModuleName,
+		certificationmoduletypes.ModuleName,
+		issuermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -119,6 +127,8 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		certifichainmoduletypes.ModuleName,
+		certificationmoduletypes.ModuleName,
+		issuermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -138,6 +148,8 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		certifichainmoduletypes.ModuleName,
+		certificationmoduletypes.ModuleName,
+		issuermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -296,6 +308,14 @@ var (
 			{
 				Name:   certifichainmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&certifichainmodulev1.Module{}),
+			},
+			{
+				Name:   certificationmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&certificationmodulev1.Module{}),
+			},
+			{
+				Name:   issuermoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&issuermodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
