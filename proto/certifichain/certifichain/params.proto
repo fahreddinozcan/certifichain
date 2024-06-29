@@ -1,0 +1,15 @@
+syntax = "proto3";
+package certifichain.certifichain;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "certifichain/x/certifichain/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "certifichain/x/certifichain/Params";
+  option (gogoproto.equal) = true;
+
+  
+}
