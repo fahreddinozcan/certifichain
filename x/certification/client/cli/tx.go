@@ -3,6 +3,7 @@ package cli
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"certifichain/x/certification/types"
 	"github.com/cosmos/cosmos-sdk/client"
@@ -13,11 +14,10 @@ import (
 
 func CmdIssueCertification() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "issue-certification [id] [issuer-id] [learner-id] [title] [description] [issue-date] [expiry-date] [skills]",
+		Use:   "issue-certification [id] [issuer-id] [learner-id] [title] [description] [issue-date] [expiry-date] [skills] [hash]",
 		Short: "Issue a new certification",
-		Args:  cobra.ExactArgs(8),
+		Args:  cobra.ExactArgs(9),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Convert string arguments to appropriate types
 			issueDate, err := strconv.ParseInt(args[5], 10, 64)
 			if err != nil {
 				return err
@@ -27,21 +27,24 @@ func CmdIssueCertification() *cobra.Command {
 				return err
 			}
 
+			skills := strings.Split(args[7], ",")
+
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
 			msg := types.NewMsgIssueCertification(
-				clientCtx.GetFromAddress().String(),
-				args[0],
-				args[1],
-				args[2],
-				args[3],
-				args[4],
+				args[0], // id
+				args[1], // issuer-id
+				args[2], // learner-id
+				args[3], // title
+				args[4], // description
 				issueDate,
 				expiryDate,
-				args[7],
+				skills,                              // skills (as a slice)
+				args[8],                             // hash
+				clientCtx.GetFromAddress().String(), // creator
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
@@ -51,7 +54,6 @@ func CmdIssueCertification() *cobra.Command {
 	}
 
 	flags.AddTxFlagsToCmd(cmd)
-
 	return cmd
 }
 

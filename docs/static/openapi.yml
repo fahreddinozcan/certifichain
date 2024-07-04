@@ -172,42 +172,6 @@ paths:
             description: MsgUpdateParams is the Msg/UpdateParams request type.
       tags:
         - Msg
-  /certifichain/learner/params:
-    get:
-      summary: Parameters queries the parameters of the module.
-      operationId: CertifichainLearnerQuery_Params
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              params:
-                description: params holds all the parameters of this module.
-                type: object
-            description: >-
-              QueryParamsResponse is response type for the Query/Params RPC
-              method.
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      tags:
-        - Query
   /certifichain.learner.Msg/UpdateParams:
     post:
       summary: |-
@@ -16884,16 +16848,6 @@ definitions:
   certifichain.issuer.Params:
     type: object
     description: Params defines the parameters for the module.
-  certifichain.learner.Params:
-    type: object
-    description: Params defines the parameters for the module.
-  certifichain.learner.QueryParamsResponse:
-    type: object
-    properties:
-      params:
-        description: params holds all the parameters of this module.
-        type: object
-    description: QueryParamsResponse is response type for the Query/Params RPC method.
   certifichain.learner.MsgUpdateParams:
     type: object
     properties:
@@ -16914,6 +16868,9 @@ definitions:
     description: |-
       MsgUpdateParamsResponse defines the response structure for executing a
       MsgUpdateParams message.
+  certifichain.learner.Params:
+    type: object
+    description: Params defines the parameters for the module.
   cosmos.auth.v1beta1.MsgUpdateParams:
     type: object
     properties:

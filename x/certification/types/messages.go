@@ -3,6 +3,7 @@ package types
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"strings"
 )
 
@@ -59,6 +60,32 @@ func NewMsgIssueCertification(id, issuerId, learnerId, title, description string
 		Hash:        hash,
 		Creator:     creator,
 	}
+}
+
+func (msg MsgIssueCertification) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return sdkerrors.ErrInvalidAddress.Wrapf("invalid creator address: %s", err)
+	}
+	if msg.Id == "" {
+		return sdkerrors.ErrInvalidRequest.Wrap("id cannot be empty")
+	}
+	if msg.IssuerId == "" {
+		return sdkerrors.ErrInvalidRequest.Wrap("issuer ID cannot be empty")
+	}
+	if msg.LearnerId == "" {
+		return sdkerrors.ErrInvalidRequest.Wrap("learner ID cannot be empty")
+	}
+	if msg.Title == "" {
+		return sdkerrors.ErrInvalidRequest.Wrap("title cannot be empty")
+	}
+	if msg.IssueDate <= 0 {
+		return sdkerrors.ErrInvalidRequest.Wrap("issue date must be positive")
+	}
+	if msg.ExpiryDate <= msg.IssueDate {
+		return sdkerrors.ErrInvalidRequest.Wrap("expiry date must be after issue date")
+	}
+	return nil
 }
 
 // MsgIssueCertificationResponse defines the response for IssueCertification message
