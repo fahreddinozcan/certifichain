@@ -1,9 +1,11 @@
 package certification
 
 import (
+	"certifichain/x/certification/client/cli"
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/spf13/cobra"
 
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"
@@ -118,6 +120,7 @@ func NewAppModule(
 func (am AppModule) RegisterServices(cfg module.Configurator) {
 	types.RegisterMsgServer(cfg.MsgServer(), keeper.NewMsgServerImpl(am.keeper))
 	types.RegisterQueryServer(cfg.QueryServer(), am.keeper)
+
 }
 
 // RegisterInvariants registers the invariants of the module. If an invariant deviates from its predicted value, the InvariantRegistry triggers appropriate logic (most often the chain will be halted)
@@ -211,4 +214,9 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 	)
 
 	return ModuleOutputs{CertificationKeeper: k, Module: m}
+}
+
+// GetTxCmd returns the root tx command for the bank module.
+func (AppModuleBasic) GetTxCmd() *cobra.Command {
+	return cli.GetTxCmd()
 }
